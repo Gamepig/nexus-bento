@@ -222,6 +222,31 @@
   gap: 0.5rem;
 }
 
+/* Ensure action buttons are visible */
+.glass-nav__actions .glass-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.glass-nav__actions .glass-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.glass-nav__actions .glass-btn i {
+  width: 18px;
+  height: 18px;
+}
+
 /* Hamburger Menu */
 .glass-nav__hamburger {
   display: none;
@@ -299,6 +324,60 @@
   .glass-nav__hamburger {
     display: flex;
   }
+
+  /* Keep action buttons visible on mobile */
+  .glass-nav__actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .glass-nav__actions .glass-btn span {
+    display: none; /* Hide text labels on mobile */
+  }
+
+  .glass-nav__actions .glass-btn {
+    padding: 0.5rem;
+  }
+}
+
+/* ========================================
+   Dark Mode Support
+   ======================================== */
+
+[data-theme="dark"] {
+  --bg-base: #0F172A;
+  --bg-elevated: #1E293B;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-bg-subtle: rgba(30, 41, 59, 0.4);
+  --glass-bg-hover: rgba(30, 41, 59, 0.85);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-border-subtle: 1px solid rgba(255, 255, 255, 0.05);
+  --gradient-hero: linear-gradient(135deg, #1E1B4B 0%, #134E4A 50%, #3B0764 100%);
+  --gradient-primary: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+}
+
+[data-theme="dark"] .glass-nav {
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .glass-nav__actions .glass-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .hero__blob--1 {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="dark"] .hero__blob--2 {
+  background: rgba(168, 85, 247, 0.4);
+}
+
+[data-theme="dark"] .hero__blob--3 {
+  background: rgba(6, 182, 212, 0.4);
 }
 
 @media (max-width: 480px) {

@@ -529,7 +529,51 @@ const LazyLoad = {
 };
 
 // ============================================
-// 15. Dark Mode Toggle (Optional)
+// 15. Language Toggle
+// ============================================
+
+const Language = {
+  init: () => {
+    const STORAGE_KEY = 'nexusai-lang';
+    const langToggles = DOM.selectAll('[data-lang-toggle]');
+    if (!langToggles.length) return;
+
+    const savedLang = Storage.get(STORAGE_KEY) || 'zh';
+
+    const applyLanguage = (lang) => {
+      document.documentElement.setAttribute('data-theme-lang', lang);
+
+      // Show/hide elements based on language
+      document.querySelectorAll('[data-lang="zh"]').forEach(el => {
+        el.style.display = lang === 'zh' ? '' : 'none';
+      });
+      document.querySelectorAll('[data-lang="en"]').forEach(el => {
+        el.style.display = lang === 'en' ? '' : 'none';
+      });
+
+      // Update button text
+      const currentLangEl = DOM.select('#current-lang');
+      if (currentLangEl) {
+        currentLangEl.textContent = lang === 'zh' ? '中文' : 'EN';
+      }
+    };
+
+    applyLanguage(savedLang);
+
+    // Bind click events to all language toggles
+    langToggles.forEach(btn => {
+      Events.on(btn, 'click', () => {
+        const currentLang = document.documentElement.getAttribute('data-theme-lang') || 'zh';
+        const newLang = currentLang === 'zh' ? 'en' : 'zh';
+        applyLanguage(newLang);
+        Storage.set(STORAGE_KEY, newLang);
+      });
+    });
+  },
+};
+
+// ============================================
+// 16. Dark Mode Toggle
 // ============================================
 
 const DarkMode = {
@@ -589,6 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Tabs.init();
   Dropdown.init();
   LazyLoad.init();
+  Language.init();
   DarkMode.init();
 
   // Example: Show welcome toast

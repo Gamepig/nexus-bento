@@ -14,20 +14,18 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Design System v2 (Glassmorphism + Bento) -->
+  <!-- Legacy styles (load first, will be overridden) -->
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Design System v2 (Glassmorphism + Bento) - Load LAST to override -->
   <link rel="stylesheet" href="css/design-tokens-v2.css">
   <link rel="stylesheet" href="css/glassmorphism.css">
   <link rel="stylesheet" href="css/bento-grid.css">
   <link rel="stylesheet" href="css/animations-v2.css">
   <link rel="stylesheet" href="css/landing-v2.css">
-
-  <!-- Legacy styles (for compatibility) -->
-  <link rel="stylesheet" href="css/design-tokens.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/theme-light.css">
-  <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
   <!-- Glass Navigation -->

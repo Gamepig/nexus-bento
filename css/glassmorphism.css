@@ -1,0 +1,360 @@
+/**
+ * Glassmorphism Component Library
+ * 玻璃擬態元件庫
+ *
+ * 使用已定義的 CSS 變數實現現代化的玻璃效果
+ * 所有元件支援暗色模式與響應式設計
+ *
+ * @requires design-system.css (CSS 變數定義)
+ * @version 1.0.0
+ */
+
+/* ========================================
+   1. 基礎玻璃卡片 (Glass Card)
+   ======================================== */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: var(--glass-border);
+  border-radius: var(--radius-2xl, 1rem);
+  box-shadow: var(--glass-shadow-md);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover);
+  border: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* 卡片變體 */
+.glass-card--subtle {
+  background: var(--glass-bg-subtle);
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.glass-card--solid {
+  background: var(--glass-bg-solid);
+}
+
+.glass-card--primary {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.glass-card--cyan {
+  background: rgba(6, 182, 212, 0.1);
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+.glass-card--bordered {
+  border-width: 2px;
+}
+
+/* ========================================
+   2. 玻璃導航欄 (Glass Navigation)
+   ======================================== */
+
+.glass-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
+  border-bottom: var(--glass-border-subtle);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.glass-nav--scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.glass-nav--hidden {
+  transform: translateY(-100%);
+}
+
+.glass-nav__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ========================================
+   3. 玻璃按鈕 (Glass Button)
+   ======================================== */
+
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg, 0.75rem);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+}
+
+.glass-btn:active {
+  transform: translateY(0);
+}
+
+/* 按鈕變體 */
+.glass-btn--primary {
+  color: white;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.glass-btn--primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.glass-btn--secondary {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--color-primary);
+}
+
+.glass-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.glass-btn--ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* 按鈕尺寸 */
+.glass-btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-xs);
+}
+
+.glass-btn--lg {
+  padding: 1rem 2rem;
+  font-size: var(--font-size-base);
+}
+
+/* ========================================
+   4. 玻璃輸入框 (Glass Input)
+   ======================================== */
+
+.glass-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-md, 0.5rem);
+  transition: all 0.2s ease;
+}
+
+.glass-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.glass-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.glass-input--error {
+  border-color: var(--color-error);
+}
+
+.glass-input--error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ========================================
+   5. 玻璃側邊欄 (Glass Sidebar)
+   ======================================== */
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 998;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.glass-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  padding: 1rem;
+}
+
+.glass-sidebar.active {
+  transform: translateX(0);
+}
+
+.glass-sidebar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: var(--glass-border-subtle);
+  margin-bottom: 1rem;
+}
+
+.glass-sidebar__close {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+
+.glass-sidebar__close:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.glass-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.glass-sidebar__nav a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.glass-sidebar__nav a:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================
+   暗色模式支援
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .glass-nav {
+    background: rgba(15, 23, 42, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-nav--scrolled {
+    background: rgba(15, 23, 42, 0.95);
+  }
+
+  .glass-btn {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-btn:hover {
+    background: rgba(30, 41, 59, 0.9);
+  }
+
+  .glass-btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-input {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-input:focus {
+    background: rgba(30, 41, 59, 0.9);
+  }
+
+  .glass-sidebar {
+    background: rgba(15, 23, 42, 0.95);
+  }
+
+  .glass-sidebar__close:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-sidebar__nav a:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* ========================================
+   響應式設計
+   ======================================== */
+
+@media (max-width: 768px) {
+  .glass-nav {
+    height: 64px;
+  }
+
+  .glass-nav__container {
+    padding: 0 1rem;
+  }
+
+  .glass-sidebar {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .glass-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: var(--font-size-xs);
+  }
+
+  .glass-btn--lg {
+    padding: 0.875rem 1.75rem;
+    font-size: var(--font-size-sm);
+  }
+}

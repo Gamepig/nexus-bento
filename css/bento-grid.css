@@ -1,0 +1,279 @@
+/**
+ * Bento Grid System (便當盒網格佈局)
+ *
+ * 靈活的網格佈局系統，支援多種尺寸組合與響應式設計
+ * - 基礎 4 欄網格系統
+ * - 6 種預設尺寸（featured, wide, tall, hero, banner, default）
+ * - 完整響應式斷點（1024px, 768px, 480px）
+ * - 與 Glass Morphism 整合
+ * - 特殊視覺效果（大數字、速度計、色彩樣本、裝置預覽）
+ */
+
+/* ==========================================
+   1. Bento 容器
+   ========================================== */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(180px, auto);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* 響應式斷點 */
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================
+   2. Bento 項目尺寸
+   ========================================== */
+
+.bento-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl, 0.75rem);
+}
+
+/* 特色 2x2 */
+.bento-item--featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* 寬 2x1 */
+.bento-item--wide {
+  grid-column: span 2;
+}
+
+/* 高 1x2 */
+.bento-item--tall {
+  grid-row: span 2;
+}
+
+/* 英雄 3x2 */
+.bento-item--hero {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+
+/* 橫幅 4x1 */
+.bento-item--banner {
+  grid-column: span 4;
+}
+
+/* 響應式尺寸調整 */
+@media (max-width: 768px) {
+  .bento-item--featured,
+  .bento-item--wide,
+  .bento-item--hero {
+    grid-column: span 2;
+  }
+
+  .bento-item--banner {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .bento-item--featured,
+  .bento-item--wide,
+  .bento-item--tall,
+  .bento-item--hero,
+  .bento-item--banner {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+/* ==========================================
+   3. Bento + Glass 整合
+   ========================================== */
+
+.bento-item.glass-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-item__icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-mesh);
+  border-radius: var(--radius-lg);
+  font-size: 1.5rem;
+}
+
+.bento-item__title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.bento-item__description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+/* 內容對齊變體 */
+.bento-item--center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.bento-item--end {
+  justify-content: flex-end;
+}
+
+/* ==========================================
+   4. 特殊視覺效果
+   ========================================== */
+
+/* 大數字效果 */
+.bento-item__big-number {
+  font-size: var(--font-size-hero);
+  font-weight: var(--font-weight-bold);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 速度計 */
+.speed-meter {
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  height: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.speed-meter__bar {
+  width: 90%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent-emerald), var(--color-primary));
+  border-radius: 9999px;
+  animation: speed-fill 2s ease-out;
+}
+
+@keyframes speed-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 90%;
+  }
+}
+
+.speed-meter__label {
+  position: absolute;
+  right: 0;
+  top: -1.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-emerald);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* 色彩樣本 */
+.color-swatches {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--glass-shadow-sm);
+}
+
+/* 裝置預覽 */
+.device-preview {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-top: 1rem;
+}
+
+.device {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-sm);
+}
+
+.device--mobile {
+  width: 24px;
+  height: 40px;
+}
+
+.device--tablet {
+  width: 40px;
+  height: 48px;
+}
+
+.device--desktop {
+  width: 64px;
+  height: 40px;
+}
+
+/* ==========================================
+   5. Section 通用樣式
+   ========================================== */
+
+.features-section {
+  padding: 6rem 0;
+  background: var(--bg-subtle);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}

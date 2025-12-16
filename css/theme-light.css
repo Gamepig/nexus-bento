@@ -1,0 +1,257 @@
+/**
+ * Light Theme - NexusAI Demo Site
+ * 淺色主題變數覆蓋
+ *
+ * 使用方式：在 <html> 加上 data-theme="light" 屬性
+ */
+
+[data-theme="light"] {
+  /* 中性色調色板 - 淺色模式（Hue 250，加入 2-3% 藍色色調） */
+  --neutral-50: oklch(98% 0.002 250);
+  --neutral-100: oklch(95% 0.002 250);
+  --neutral-200: oklch(90% 0.002 250);
+  --neutral-300: oklch(80% 0.002 250);
+  --neutral-400: oklch(65% 0.002 250);
+  --neutral-500: oklch(50% 0.002 250);
+  --neutral-600: oklch(40% 0.002 250);
+  --neutral-700: oklch(30% 0.002 250);
+  --neutral-800: oklch(20% 0.002 250);
+  --neutral-900: oklch(10% 0.002 250);
+
+  /* 四層背景結構 - 淺色模式 */
+  --bg-level-1: oklch(100% 0 0);  /* 最深 - 基礎背景（白色） */
+  --bg-level-2: oklch(98% 0.002 250);  /* 第二層 - 稍淺背景 */
+  --bg-level-3: oklch(100% 0 0);  /* 第三層 - 卡片容器（白色） */
+  --bg-level-4: oklch(98% 0.002 250);  /* 最淺 - 互動元素 */
+
+  /* 背景色（向後兼容，映射到四層結構） */
+  --color-bg-primary: var(--bg-level-1);
+  --color-bg-secondary: var(--bg-level-2);
+  --color-bg-tertiary: oklch(96% 0.002 250);
+  --color-bg-elevated: var(--bg-level-1);
+  --color-bg-card: var(--bg-level-3);
+  --color-bg-card-hover: var(--bg-level-4);
+
+  /* 文字色 - OKLCH 格式 */
+  --color-text-primary: oklch(18% 0.002 250);
+  --color-text-secondary: oklch(28% 0.002 250);
+  --color-text-tertiary: oklch(36% 0.002 250);
+  --color-text-muted: oklch(45% 0.002 250);
+
+  /* 邊框色 - OKLCH 格式 */
+  --color-border-default: oklch(20% 0.002 250 / 0.1);
+  --color-border-muted: oklch(20% 0.002 250 / 0.05);
+  --color-border-emphasis: oklch(20% 0.002 250 / 0.15);
+
+  /* 表面邊框（卡片/容器的上亮下暗邊線） */
+  --surface-border-top: oklch(92% 0.002 250);
+  --surface-border-bottom: oklch(86% 0.002 250);
+
+  /* 強調色（加深版本）- OKLCH 格式 */
+  --color-cyan: oklch(50% 0.25 220);
+  --color-cyan-light: oklch(55% 0.3 220);
+  --color-cyan-dark: oklch(45% 0.25 220);
+
+  --color-green: oklch(50% 0.2 145);
+  --color-green-light: oklch(60% 0.2 145);
+  --color-green-dark: oklch(40% 0.18 145);
+
+  --color-purple: oklch(45% 0.28 280);
+  --color-purple-light: oklch(55% 0.3 280);
+  --color-purple-dark: oklch(40% 0.25 280);
+
+  --color-orange: oklch(55% 0.2 70);
+  --color-orange-light: oklch(65% 0.2 70);
+  --color-orange-dark: oklch(45% 0.2 70);
+
+  --color-red: oklch(45% 0.25 25);
+  --color-red-light: oklch(55% 0.25 25);
+  --color-red-dark: oklch(35% 0.2 25);
+
+  --color-yellow: oklch(60% 0.2 85);
+  --color-yellow-light: oklch(70% 0.2 85);
+  --color-yellow-dark: oklch(50% 0.18 85);
+
+  /* 陰影（減輕）- OKLCH 格式 */
+  --shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.05);
+  --shadow-md: 
+    0 4px 6px -1px oklch(0% 0 0 / 0.07),
+    0 2px 4px -2px oklch(0% 0 0 / 0.05);
+  --shadow-lg: 
+    0 10px 15px -3px oklch(0% 0 0 / 0.1),
+    0 4px 6px -4px oklch(0% 0 0 / 0.05);
+  --shadow-xl: 
+    0 20px 25px -5px oklch(0% 0 0 / 0.1),
+    0 10px 10px -5px oklch(0% 0 0 / 0.04);
+
+  /* 發光效果（減弱）- OKLCH 格式 */
+  --glow-cyan: 0 0 20px oklch(50% 0.25 220 / 0.15);
+  --glow-cyan-strong: 0 0 30px oklch(50% 0.25 220 / 0.25);
+  --glow-green: 0 0 20px oklch(50% 0.2 145 / 0.15);
+  --glow-green-strong: 0 0 30px oklch(50% 0.2 145 / 0.25);
+  --glow-purple: 0 0 20px oklch(45% 0.28 280 / 0.15);
+  --glow-purple-strong: 0 0 30px oklch(45% 0.28 280 / 0.25);
+  --glow-orange: 0 0 20px oklch(55% 0.2 70 / 0.15);
+  --glow-orange-strong: 0 0 30px oklch(55% 0.2 70 / 0.25);
+  --glow-red: 0 0 20px oklch(45% 0.25 25 / 0.15);
+  --glow-red-strong: 0 0 30px oklch(45% 0.25 25 / 0.25);
+  --glow-yellow: 0 0 20px oklch(60% 0.2 85 / 0.15);
+  --glow-yellow-strong: 0 0 30px oklch(60% 0.2 85 / 0.25);
+
+  /* 漸變背景 */
+  --gradient-bg-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  --gradient-bg-elevated: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
+  --gradient-bg-subtle: linear-gradient(180deg, rgba(248, 250, 252, 0.8) 0%, rgba(241, 245, 249, 0.9) 100%);
+
+  /* 漸變色彩（使用加深色） */
+  --gradient-cyan: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+  --gradient-cyan-soft: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+  --gradient-green: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  --gradient-green-soft: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+  --gradient-purple: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+  --gradient-purple-soft: linear-gradient(135deg, #A855F7 0%, #7C3AED 100%);
+  --gradient-orange: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
+  --gradient-orange-soft: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  --gradient-red: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+  --gradient-red-soft: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  --gradient-yellow: linear-gradient(135deg, #CA8A04 0%, #A16207 100%);
+
+  /* 跨色系漸變 */
+  --gradient-purple-cyan: linear-gradient(90deg, #7C3AED 0%, #0891B2 100%);
+  --gradient-purple-blue: linear-gradient(90deg, #7C3AED 0%, #2563EB 100%);
+  --gradient-green-teal: linear-gradient(90deg, #16A34A 0%, #0D9488 100%);
+  --gradient-green-cyan: linear-gradient(90deg, #16A34A 0%, #0891B2 100%);
+  --gradient-orange-yellow: linear-gradient(90deg, #EA580C 0%, #CA8A04 100%);
+  --gradient-orange-red: linear-gradient(90deg, #EA580C 0%, #DC2626 100%);
+  --gradient-cyan-green: linear-gradient(90deg, #0891B2 0%, #16A34A 100%);
+
+  /* 進度條漸變 */
+  --gradient-progress: linear-gradient(90deg, #7C3AED 0%, #2563EB 50%, #16A34A 100%);
+  --gradient-progress-warm: linear-gradient(90deg, #CA8A04 0%, #EA580C 50%, #DC2626 100%);
+  --gradient-progress-cool: linear-gradient(90deg, #6D28D9 0%, #0891B2 50%, #0D9488 100%);
+
+  /* 邊框漸變 */
+  --gradient-border-rainbow: linear-gradient(135deg, #7C3AED 0%, #0891B2 50%, #16A34A 100%);
+  --gradient-border-cool: linear-gradient(135deg, #6D28D9 0%, #0891B2 100%);
+  --gradient-border-warm: linear-gradient(135deg, #EA580C 0%, #DC2626 100%);
+}
+
+/* 特殊元素覆蓋（處理硬編碼的顏色） */
+[data-theme="light"] body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+[data-theme="light"] .top-nav {
+  background: linear-gradient(180deg, oklch(98% 0.002 250 / 0.98) 0%, oklch(100% 0 0 / 0.95) 100%);
+  border-bottom-color: oklch(50% 0.25 220 / 0.1);
+}
+
+[data-theme="light"] .sidebar {
+  background: linear-gradient(180deg, oklch(98% 0.002 250 / 0.98) 0%, oklch(100% 0 0 / 0.95) 100%);
+  border-right-color: oklch(50% 0.25 220 / 0.1);
+}
+
+[data-theme="light"] footer {
+  background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  border-top-color: oklch(50% 0.25 220 / 0.1);
+}
+
+[data-theme="light"] .hero::after {
+  background: linear-gradient(180deg, oklch(100% 0 0 / 0.7) 0%, oklch(98% 0.002 250 / 0.9) 100%);
+}
+
+[data-theme="light"] .hero::before {
+  background: radial-gradient(circle, oklch(50% 0.25 220 / 0.1) 0%, transparent 70%);
+}
+
+[data-theme="light"] ::selection {
+  background-color: oklch(50% 0.25 220 / 0.3);
+  color: var(--color-text-primary);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--color-bg-tertiary);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-emphasis);
+}
+
+/* 按鈕文字色修正（實心按鈕在淺色主題需要白字） */
+[data-theme="light"] .btn-solid-cyan,
+[data-theme="light"] .btn-solid-green,
+[data-theme="light"] .btn-solid-purple,
+[data-theme="light"] .btn-solid-orange,
+[data-theme="light"] .btn-solid-red {
+  color: oklch(100% 0 0);
+}
+
+/* 標籤文字色修正 */
+[data-theme="light"] .tag-tip,
+[data-theme="light"] .tag-tip-purple,
+[data-theme="light"] .tag-priority-high,
+[data-theme="light"] .tag-priority-low {
+  color: oklch(100% 0 0);
+}
+
+[data-theme="light"] .tag-tip-orange,
+[data-theme="light"] .tag-priority-medium {
+  color: oklch(20% 0.002 250);
+}
+
+/* Dashboard KPI 卡片（硬編碼背景色覆蓋） */
+[data-theme="light"] .kpi-card {
+  background: linear-gradient(180deg, oklch(100% 0 0) 0%, oklch(98% 0.002 250) 100%);
+  border-color: var(--color-border-default);
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.05);
+}
+
+[data-theme="light"] .kpi-card::before {
+  background: linear-gradient(90deg, transparent, var(--color-cyan), transparent);
+}
+
+/* 統計卡片 */
+[data-theme="light"] .stat-card {
+  background: linear-gradient(180deg, oklch(100% 0 0) 0%, oklch(98% 0.002 250) 100%);
+}
+
+/* 圖表區域 */
+[data-theme="light"] .chart-container,
+[data-theme="light"] .chart-card {
+  background: var(--color-bg-card);
+  border-color: var(--color-border-default);
+}
+
+/* 資料表格 */
+[data-theme="light"] .data-table {
+  background: var(--color-bg-card);
+}
+
+[data-theme="light"] .data-table th {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+}
+
+[data-theme="light"] .data-table tr:hover {
+  background: var(--color-bg-tertiary);
+}
+
+/* 活動列表 */
+[data-theme="light"] .activity-item {
+  border-color: var(--color-border-default);
+}
+
+/* 快速操作按鈕 */
+[data-theme="light"] .quick-action {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-border-default);
+}
+
+[data-theme="light"] .quick-action:hover {
+  background: var(--color-bg-tertiary);
+}

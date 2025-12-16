@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>任務看板 - NexusAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/design-tokens-v2.css">
+  <link rel="stylesheet" href="../css/glassmorphism.css">
+  <link rel="stylesheet" href="../css/bento-grid.css">
+  <link rel="stylesheet" href="../css/design-tokens.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/theme-light.css">
+  <style>
+    /* Mobile-First: 手機版預設 */
+    .page-header {
+      background: var(--color-bg-secondary);
+      padding: var(--spacing-6) 0;
+      border-bottom: 1px solid var(--color-border-default);
+      margin-top: 64px;
+      margin-left: 0;
+    }
+
+    .page-header h1 {
+      margin: 0;
+      font-size: var(--font-size-xl);
+    }
+
+    .page-content {
+      padding: var(--spacing-4);
+      margin-left: 0;
+      overflow-x: auto;
+    }
+
+    /* 平板 */
+    @media (min-width: 768px) {
+      .page-header {
+        margin-top: 80px;
+        padding: var(--spacing-8) 0;
+      }
+
+      .page-header h1 {
+        font-size: var(--font-size-2xl);
+      }
+
+      .page-content {
+        padding: var(--spacing-6);
+      }
+    }
+
+    /* 桌面版 */
+    @media (min-width: 1024px) {
+      .page-header {
+        margin-left: 240px;
+      }
+
+      .page-content {
+        margin-left: 240px;
+        padding: var(--spacing-8);
+      }
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-8);
+      flex-wrap: wrap;
+      gap: var(--spacing-4);
+    }
+
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-6);
+    }
+
+    .kanban-column {
+      background: var(--color-bg-tertiary);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-4);
+      border: 1px solid var(--color-border-muted);
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .column-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-4);
+      padding-bottom: var(--spacing-3);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+
+    .column-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+    }
+
+    .column-count {
+      background: var(--color-bg-card);
+      color: var(--color-text-secondary);
+      padding: var(--spacing-1) var(--spacing-2);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .column-to-do .column-count {
+      background: rgba(107, 114, 128, 0.2);
+      color: #9CA3AF;
+    }
+
+    .column-in-progress .column-count {
+      background: rgba(0, 217, 255, 0.2);
+      color: var(--color-cyan);
+    }
+
+    .column-in-review .column-count {
+      background: rgba(249, 115, 22, 0.2);
+      color: var(--color-orange);
+    }
+
+    .column-done .column-count {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--color-green);
+    }
+
+    .tasks-container {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-3);
+      padding-right: var(--spacing-2);
+    }
+
+    .tasks-container::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .tasks-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tasks-container::-webkit-scrollbar-thumb {
+      background: var(--color-border-default);
+      border-radius: 2px;
+    }
+
+    .task-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border-muted);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-4);
+      cursor: grab;
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .task-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border-color: var(--color-cyan);
+    }
+
+    .task-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--color-cyan), transparent);
+    }
+
+    .task-title {
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-2);
+      font-size: var(--font-size-sm);
+      line-height: 1.4;
+    }
+
+    .task-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-3);
+    }
+
+    .task-priority {
+      display: inline-block;
+      padding: var(--spacing-1) var(--spacing-2);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .priority-high {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--color-red);
+    }
+
+    .priority-medium {
+      background: rgba(249, 115, 22, 0.2);
+      color: var(--color-orange);
+    }
+
+    .priority-low {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--color-green);
+    }
+
+    .task-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+      margin-bottom: var(--spacing-3);
+    }
+
+    .task-tag {
+      display: inline-block;
+      padding: var(--spacing-1) var(--spacing-2);
+      background: rgba(0, 217, 255, 0.1);
+      color: var(--color-cyan);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .task-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--spacing-3);
+      border-top: 1px solid var(--color-border-muted);
+    }
+
+    .task-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-cyan), var(--color-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 11px;
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .task-date {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .add-task-btn {
+      padding: var(--spacing-3);
+      background: transparent;
+      border: 2px dashed var(--color-border-default);
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-sm);
+      margin-top: auto;
+    }
+
+    .add-task-btn:hover {
+      border-color: var(--color-cyan);
+      color: var(--color-cyan);
+      background: rgba(0, 217, 255, 0.05);
+    }
+
+    @media (max-width: 1279px) {
+      .kanban-board {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .kanban-board {
+        grid-template-columns: 1fr;
+      }
+
+      .kanban-column {
+        min-height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="glass-nav">
+    <div class="glass-nav__container">
+      <a href="../index.html" class="logo">
+        <i data-lucide="sparkles" class="logo-icon" aria-hidden="true"></i>
+        <span>NexusAI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="dashboard.html"><i data-lucide="layout-dashboard" class="nav-icon"></i>儀表板</a></li>
+        <li><a href="kanban.html" class="active"><i data-lucide="trello" class="nav-icon"></i>看板</a></li>
+        <li><a href="pricing.html"><i data-lucide="credit-card" class="nav-icon"></i>定價</a></li>
+        <li><a href="about.html"><i data-lucide="users" class="nav-icon"></i>關於</a></li>
+      </ul>
+      <button id="theme-toggle-btn" data-theme-toggle class="glass-btn glass-btn--ghost glass-btn--sm mobile-theme-toggle" title="切換主題" aria-label="切換至淺色主題">
+        <i data-lucide="sun"></i>
+      </button>
+      <button class="hamburger-menu glass-btn glass-btn--ghost">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sidebar Navigation -->
+  <div class="sidebar-overlay"></div>
+  <aside id="sidebar-container" class="glass-sidebar dashboard-sidebar"></aside>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>任務看板</h1>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="page-content">
+    <div class="container">
+      <!-- Controls -->
+      <div class="controls-bar">
+        <div style="display: flex; gap: var(--spacing-3);">
+          <select style="padding: var(--spacing-2) var(--spacing-3); background: var(--color-bg-tertiary); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); color: var(--color-text-primary);">
+            <option>NexusAI 平台開發</option>
+            <option>行動 App 重構</option>
+            <option>API 整合專案</option>
+          </select>
+          <input type="text" placeholder="搜尋任務..." style="padding: var(--spacing-2) var(--spacing-3); background: var(--color-bg-tertiary); border: 1px solid var(--color-border-default); border-radius: var(--radius-md); color: var(--color-text-primary); flex: 0 1 200px;">
+        </div>
+        <button class="glass-btn glass-btn--primary"><i data-lucide="plus" style="width: 16px; height: 16px;"></i> 新增任務</button>
+      </div>
+
+      <!-- Kanban Board -->
+      <div class="kanban-board">
+        <!-- To Do Column -->
+        <div class="kanban-column column-to-do glass-card">
+          <div class="column-header">
+            <div class="column-title">
+              <i data-lucide="circle" style="width: 16px; height: 16px; color: #9CA3AF;"></i>
+              待辦
+            </div>
+            <span class="column-count">3</span>
+          </div>
+
+          <div class="tasks-container">
+            <div class="task-card glass-card">
+              <div class="task-title">新增使用者認證功能</div>
+              <div class="task-meta">
+                <span class="task-priority priority-high">高</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Feature</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar">LM</div>
+                <span class="task-date">2025-12-10</span>
+              </div>
+            </div>
+
+            <div class="task-card glass-card">
+              <div class="task-title">資料庫效能優化</div>
+              <div class="task-meta">
+                <span class="task-priority priority-medium">中</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Performance</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-green), var(--color-cyan));">CD</div>
+                <span class="task-date">2025-12-15</span>
+              </div>
+            </div>
+
+            <div class="task-card glass-card">
+              <div class="task-title">修復行動裝置相容性</div>
+              <div class="task-meta">
+                <span class="task-priority priority-high">高</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Bug</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-purple), var(--color-orange));">WX</div>
+                <span class="task-date">2025-12-08</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="add-task-btn"><i data-lucide="plus" style="width: 16px; height: 16px;"></i> 新增卡片</button>
+        </div>
+
+        <!-- In Progress Column -->
+        <div class="kanban-column column-in-progress glass-card">
+          <div class="column-header">
+            <div class="column-title">
+              <i data-lucide="circle" style="width: 16px; height: 16px; color: var(--color-cyan);"></i>
+              進行中
+            </div>
+            <span class="column-count">2</span>
+          </div>
+
+          <div class="tasks-container">
+            <div class="task-card glass-card">
+              <div class="task-title">前端頁面設計</div>
+              <div class="task-meta">
+                <span class="task-priority priority-high">高</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Design</span>
+                <span class="task-tag">UI</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-orange), var(--color-cyan));">ZJ</div>
+                <span class="task-date">2025-12-12</span>
+              </div>
+            </div>
+
+            <div class="task-card glass-card">
+              <div class="task-title">API 端點實裝</div>
+              <div class="task-meta">
+                <span class="task-priority priority-high">高</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Backend</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-cyan), var(--color-green));">CD</div>
+                <span class="task-date">2025-12-14</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="add-task-btn"><i data-lucide="plus" style="width: 16px; height: 16px;"></i> 新增卡片</button>
+        </div>
+
+        <!-- In Review Column -->
+        <div class="kanban-column column-in-review glass-card">
+          <div class="column-header">
+            <div class="column-title">
+              <i data-lucide="circle" style="width: 16px; height: 16px; color: var(--color-orange);"></i>
+              審核中
+            </div>
+            <span class="column-count">1</span>
+          </div>
+
+          <div class="tasks-container">
+            <div class="task-card glass-card">
+              <div class="task-title">程式碼審查 PR #284</div>
+              <div class="task-meta">
+                <span class="task-priority priority-medium">中</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Review</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-purple), var(--color-cyan));">HM</div>
+                <span class="task-date">2025-12-11</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="add-task-btn"><i data-lucide="plus" style="width: 16px; height: 16px;"></i> 新增卡片</button>
+        </div>
+
+        <!-- Done Column -->
+        <div class="kanban-column column-done glass-card">
+          <div class="column-header">
+            <div class="column-title">
+              <i data-lucide="circle" style="width: 16px; height: 16px; color: var(--color-green);"></i>
+              已完成
+            </div>
+            <span class="column-count">4</span>
+          </div>
+
+          <div class="tasks-container">
+            <div class="task-card glass-card">
+              <div class="task-title">專案初始化與架構設置</div>
+              <div class="task-meta">
+                <span class="task-priority priority-high">高</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Setup</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar">LM</div>
+                <span class="task-date">2025-09-20</span>
+              </div>
+            </div>
+
+            <div class="task-card glass-card">
+              <div class="task-title">建立開發環境</div>
+              <div class="task-meta">
+                <span class="task-priority priority-medium">中</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">DevOps</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-green), var(--color-cyan));">CD</div>
+                <span class="task-date">2025-09-25</span>
+              </div>
+            </div>
+
+            <div class="task-card glass-card">
+              <div class="task-title">資料庫設計與實裝</div>
+              <div class="task-meta">
+                <span class="task-priority priority-high">高</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Database</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-purple), var(--color-orange));">CD</div>
+                <span class="task-date">2025-10-05</span>
+              </div>
+            </div>
+
+            <div class="task-card glass-card">
+              <div class="task-title">設計文件撰寫</div>
+              <div class="task-meta">
+                <span class="task-priority priority-low">低</span>
+              </div>
+              <div class="task-tags">
+                <span class="task-tag">Docs</span>
+              </div>
+              <div class="task-footer">
+                <div class="task-avatar" style="background: linear-gradient(135deg, var(--color-orange), var(--color-purple));">ZJ</div>
+                <span class="task-date">2025-10-15</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="add-task-btn"><i data-lucide="plus" style="width: 16px; height: 16px;"></i> 新增卡片</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div>
+        <h4>NexusAI</h4>
+        <p>現代化的深色科技主題設計系統</p>
+      </div>
+      <div>
+        <h4>導航</h4>
+        <ul>
+          <li><a href="../index.html">首頁</a></li>
+          <li><a href="dashboard.html">儀表板</a></li>
+          <li><a href="kanban.html">看板</a></li>
+          <li><a href="pricing.html">定價</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>資源</h4>
+        <ul>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">部落格</a></li>
+          <li><a href="#">社群</a></li>
+          <li><a href="#">文檔</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 NexusAI. 保留所有權利。</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
